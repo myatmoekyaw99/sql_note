@@ -1,0 +1,143 @@
+
+mysql> select * from Team where Team_id="T1";
++---------+-------------------+-------------+
+| Team_id | Name              | Foundeddate |
++---------+-------------------+-------------+
+| T1      | Manchester United | 1699-08-18  |
++---------+-------------------+-------------+
+1 row in set (0.07 sec)
+
+mysql> select * from Team where Team_id="T2";
++---------+-----------+-------------+
+| Team_id | Name      | Foundeddate |
++---------+-----------+-------------+
+| T2      | Barcelona | 1629-02-22  |
++---------+-----------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select * from Team where Team_id="T3";
++---------+-------------+-------------+
+| Team_id | Name        | Foundeddate |
++---------+-------------+-------------+
+| T3      | Real Madrid | 1677-01-10  |
++---------+-------------+-------------+
+1 row in set (0.00 sec)
+
+
+
+
+mysql> select * from Player where Salary>500000;
++-----------+--------------------+-----------+------+--------+--------+---------+
+| Player_id | Name               | Jursey_No | Age  | Salary | Height | Team_id |
++-----------+--------------------+-----------+------+--------+--------+---------+
+| P22       | Christiano Ronaldo |         7 |   35 | 590000 |    6.4 | T6      |
+| P3        | Lionel Messi       |        10 |   34 | 600000 |    5.6 | T2      |
++-----------+--------------------+-----------+------+--------+--------+---------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select Name,(select SUM(Salary) from Player where Player.Team_id=Team.Team_id) as Salary from Team;
++-------------------+---------+
+| Name              | Salary  |
++-------------------+---------+
+| Manchester United | 2410000 |
+| Barcelona         | 2150000 |
+| Real Madrid       | 1790000 |
+| Liverpool         | 1230000 |
+| Chelsea           |  950000 |
+| Juventus          | 1380000 |
+| Arsenal           |  860000 |
++-------------------+---------+
+7 rows in set (0.07 sec)
+
+
+
+
+mysql> select * from Player where height<5;
+Empty set (0.02 sec)
+
+mysql> select * from Player where height<6;
++-----------+---------------------------+-----------+------+--------+--------+---------+
+| Player_id | Name                      | Jursey_No | Age  | Salary | Height | Team_id |
++-----------+---------------------------+-----------+------+--------+--------+---------+
+| P10       | Victor Lindelof           |         2 |   24 | 360000 |   5.11 | T1      |
+| P11       | Eden Hazard               |         7 |   29 | 430000 |    5.8 | T3      |
+| P12       | Luka Modrid               |        10 |   31 | 420000 |    5.8 | T3      |
+| P13       | Frenkie De Jong           |        21 |   21 | 390000 |   5.11 | T2      |
+| P14       | Arturo Vidal              |        22 |   33 | 340000 |   5.11 | T2      |
+| P16       | Mohamed Salah             |        11 |   28 | 400000 |    5.6 | T4      |
+| P17       | Sadio Mane                |        10 |   28 | 410000 |    5.9 | T4      |
+| P2        | Bruno Fernandez           |        18 |   25 | 400000 |    5.8 | T1      |
+| P20       | N'golo Kante              |         7 |   29 | 380000 |    5.6 | T5      |
+| P21       | Mason Mount               |        19 |   21 | 200000 |    5.9 | T5      |
+| P23       | Paulo Dybala              |        10 |   27 | 400000 |    5.6 | T6      |
+| P24       | Giorgio Chiellini         |         3 |   36 | 390000 |    5.9 | T6      |
+| P25       | Pierre-Emerick Aubameyang |        14 |   31 | 420000 |    5.9 | T7      |
+| P26       | Bukayo Saka               |        77 |   19 | 220000 |    5.9 | T7      |
+| P27       | Matteo Guendouzi          |        29 |   21 | 220000 |   5.11 | T7      |
+| P3        | Lionel Messi              |        10 |   34 | 600000 |    5.6 | T2      |
+| P4        | Luis Suarez               |         9 |   35 | 400000 |    5.1 | T2      |
+| P6        | Karim Banzema             |         9 |   33 | 460000 |   5.11 | T3      |
+| P9        | Anthony Martial           |         9 |   23 | 390000 |    5.1 | T1      |
++-----------+---------------------------+-----------+------+--------+--------+---------+
+19 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select Name,(select AVG(Salary) from Player where Player.Team_id=Team.Team_id) as Average_Salary from Team;
++-------------------+----------------+
+| Name              | Average_Salary |
++-------------------+----------------+
+| Manchester United |    401666.6667 |
+| Barcelona         |    430000.0000 |
+| Real Madrid       |    447500.0000 |
+| Liverpool         |    410000.0000 |
+| Chelsea           |    316666.6667 |
+| Juventus          |    460000.0000 |
+| Arsenal           |    286666.6667 |
++-------------------+----------------+
+7 rows in set (0.00 sec)
+
+
+
+mysql> select Name,Salary from player where Salary in (select max(Salary) from Player);
++--------------+--------+
+| Name         | Salary |
++--------------+--------+
+| Lionel Messi | 600000 |
++--------------+--------+
+1 row in set (0.07 sec)
+
+mysql> select Name,Salary from player where Salary in (select min(Salary) from Player);
++-------------+--------+
+| Name        | Salary |
++-------------+--------+
+| Mason Mount | 200000 |
++-------------+--------+
+1 row in set (0.00 sec)
+
+
+
+
+
+mysql> select * from Player where Age>30 and Salary>200000;
++-----------+---------------------------+-----------+------+--------+--------+---------+
+| Player_id | Name                      | Jursey_No | Age  | Salary | Height | Team_id |
++-----------+---------------------------+-----------+------+--------+--------+---------+
+| P12       | Luka Modrid               |        10 |   31 | 420000 |    5.8 | T3      |
+| P14       | Arturo Vidal              |        22 |   33 | 340000 |   5.11 | T2      |
+| P22       | Christiano Ronaldo        |         7 |   35 | 590000 |    6.4 | T6      |
+| P24       | Giorgio Chiellini         |         3 |   36 | 390000 |    5.9 | T6      |
+| P25       | Pierre-Emerick Aubameyang |        14 |   31 | 420000 |    5.9 | T7      |
+| P3        | Lionel Messi              |        10 |   34 | 600000 |    5.6 | T2      |
+| P4        | Luis Suarez               |         9 |   35 | 400000 |    5.1 | T2      |
+| P5        | Gerrad Pique              |         5 |   32 | 420000 |    6.4 | T2      |
+| P6        | Karim Banzema             |         9 |   33 | 460000 |   5.11 | T3      |
+| P7        | Sergio Ramos              |         4 |   34 | 480000 |      6 | T3      |
++-----------+---------------------------+-----------+------+--------+--------+---------+
+10 rows in set (0.00 sec)

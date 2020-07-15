@@ -1,0 +1,56 @@
+mysql> create table Menu(menu_id varchar(20),name varchar(20),description varchar(20),PRIMARY KEY (menu_id));
+Query OK, 0 rows affected (0.50 sec)
+
+mysql> create table Food(food_id varchar(20),name varchar(20) UNIQUE,price varchar(20) NOT NULL,menu_id varchar(20) references Menu(menu_id),PRIMARY KEY (food_id));
+Query OK, 0 rows affected (0.74 sec)
+
+mysql> insert into menu values("m1","Cold Drink","For cold lover");
+Query OK, 1 row affected (0.27 sec)
+
+mysql> insert into menu values("m2","Hot Drink","For you");
+Query OK, 1 row affected (0.18 sec)
+
+mysql> insert into food values("f1","Americano","2000","m1");
+Query OK, 1 row affected (0.12 sec)
+
+mysql> insert into food values("f2","Cuppicino","1500","m2");
+Query OK, 1 row affected (0.19 sec)
+
+mysql> update food set menu_id="m2" where food_id="f1";
+Query OK, 1 row affected (0.22 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from food;
++---------+-----------+-------+---------+
+| food_id | name      | price | menu_id |
++---------+-----------+-------+---------+
+| f1      | Americano | 2000  | m2      |
+| f2      | Cuppicino | 1500  | m2      |
++---------+-----------+-------+---------+
+2 rows in set (0.08 sec)
+
+mysql> insert into food values("f3","Milk Shake","2500","m1");
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into food values("f4","Lemon Juice","1500","m1");
+Query OK, 1 row affected (0.14 sec)
+
+mysql> select * from menu;
++---------+------------+----------------+
+| menu_id | name       | description    |
++---------+------------+----------------+
+| m1      | Cold Drink | For cold lover |
+| m2      | Hot Drink  | For you        |
++---------+------------+----------------+
+2 rows in set (0.03 sec)
+
+mysql> select * from food;
++---------+-------------+-------+---------+
+| food_id | name        | price | menu_id |
++---------+-------------+-------+---------+
+| f1      | Americano   | 2000  | m2      |
+| f2      | Cuppicino   | 1500  | m2      |
+| f3      | Milk Shake  | 2500  | m1      |
+| f4      | Lemon Juice | 1500  | m1      |
++---------+-------------+-------+---------+
+4 rows in set (0.00 sec)
